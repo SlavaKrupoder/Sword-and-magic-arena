@@ -66,6 +66,40 @@ public class GameRoot : MonoBehaviour
             var _curentUnit = charactersList[i];
             _updatedUnit.SetUnitsParams(_curentUnit.PlayerHealth, _curentUnit.PlayerDamage, _curentUnit.IsHero, _curentUnit.IsEnemy);
         }
+        CheckGameStatus();
+    }
+
+    private void CheckGameStatus()
+    {
+        int _herosCount = 0;
+        int _enemysCount = 0;
+        var _unitsList = mapGenerator.GettilesMap();
+        for (int i = 0; i < _unitsList.GetLength(0); i++)
+        {
+            for (int j = 0; j < _unitsList.GetLength(1); j++)
+            {
+                UnitsLogic currentObject = _unitsList[i, j]?.GetComponentInChildren<UnitsLogic>();
+
+                if (currentObject != null && currentObject.CompareTag("Enemy"))
+                {
+                    _enemysCount++;
+                }
+                else if(currentObject != null && currentObject.CompareTag("Hero"))
+                {
+                    _herosCount++;
+                }
+            }
+           
+        }
+
+        if (_herosCount <= 0 )
+        {
+            EventManager.current.SendEndGameEvent("Enemys team win! You Lose :(");
+        }
+        else if(_enemysCount <= 0)
+        {
+            EventManager.current.SendEndGameEvent("Heroes team win!");
+        }
     }
 
     void Start()
