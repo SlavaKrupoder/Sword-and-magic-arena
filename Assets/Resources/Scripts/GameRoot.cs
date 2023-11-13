@@ -60,11 +60,14 @@ public class GameRoot : MonoBehaviour
 
         for (var i = 0; i < charactersListCount; i++)
         {
-            var _column = charactersList[i].ColIndex;
-            var _row = charactersList[i].RowIndex;
-            var _updatedUnit = tilesMap[_column, _row].GetComponentInChildren<UnitsLogic>();
-            var _curentUnit = charactersList[i];
-            _updatedUnit.SetUnitsParams(_curentUnit.PlayerHealth, _curentUnit.PlayerDamage, _curentUnit.IsHero, _curentUnit.IsEnemy);
+            if (charactersList[i] != null)
+            {
+                var _column = charactersList[i].ColIndex;
+                var _row = charactersList[i].RowIndex;
+                var _updatedUnit = tilesMap[_column, _row].GetComponentInChildren<UnitsLogic>();
+                var _curentUnit = charactersList[i];
+                _updatedUnit.SetUnitsParams(_curentUnit.PlayerHealth, _curentUnit.PlayerDamage, _curentUnit.IsHero, _curentUnit.IsEnemy);
+            }
         }
         CheckGameStatus();
     }

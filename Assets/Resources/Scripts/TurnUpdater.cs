@@ -33,25 +33,28 @@ public class TurnUpdater : MonoBehaviour
             for (int i = 0; i < unitsOfTurnList.Length; i++)
             {
                 Character character = new Character(0, 0, 0, 0, true, false);
-                TileData.TileDataInfo unitInfo = unitsOfTurnList[i].GetComponentInParent<TileData>().GetDataInfo();
-                UnitsLogic.HeroDataInfo _unitInfo = unitsOfTurnList[i].GetComponent<UnitsLogic>().GetUnitsParams();
-                int rowIndex = unitInfo.TileRow;
-                int colIndex = unitInfo.TileColumn;
-                bool isHero = unitInfo.IsHeroPlace;
-                bool isEnemy = unitInfo.IsEnemyPlace;
+                if (unitsOfTurnList[i] != null)
+                {
+                    TileData.TileDataInfo unitInfo = unitsOfTurnList[i].GetComponentInParent<TileData>().GetDataInfo();
+                    UnitsLogic.HeroDataInfo _unitInfo = unitsOfTurnList[i]?.GetComponent<UnitsLogic>().GetUnitsParams();
+                    int rowIndex = unitInfo.TileRow;
+                    int colIndex = unitInfo.TileColumn;
+                    bool isHero = unitInfo.IsHeroPlace;
+                    bool isEnemy = unitInfo.IsEnemyPlace;
 
-                isEnemiesList[i] = isEnemy;
-                isHeroesList[i] = isHero;
+                    isEnemiesList[i] = isEnemy;
+                    isHeroesList[i] = isHero;
 
-                character.PlayerHealth = _unitInfo.PlayerHealth;
-                character.PlayerDamage = _unitInfo.PlayerDamage;
-                character.RowIndex = rowIndex;
-                character.ColIndex = colIndex;
-                character.IsHero = isHero;
-                character.IsEnemy = isEnemy;
+                    character.PlayerHealth = _unitInfo.PlayerHealth;
+                    character.PlayerDamage = _unitInfo.PlayerDamage;
+                    character.RowIndex = rowIndex;
+                    character.ColIndex = colIndex;
+                    character.IsHero = isHero;
+                    character.IsEnemy = isEnemy;
 
-                characters[i] = character;
-                playerMove[i] = new int[] { rowIndex, colIndex };
+                    characters[i] = character;
+                    playerMove[i] = new int[] { rowIndex, colIndex };
+                }
             }
 
             //string unitJsonData = CreateJsonData(characters);

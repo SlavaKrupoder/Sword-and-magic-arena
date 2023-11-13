@@ -5,6 +5,8 @@ using System.Collections.Generic;
 
 public class GameLogic : MonoBehaviour
 {
+    // The generated Dll is located in the folder (Assets/Resources/Plugins/GameLogicCore.dll) and contains the same code,
+    // if necessary, can be used as a third-party library instead of this script as discussed
     private static int HeroIndex = 0;
     private static int EemyIndex = 1;
 
