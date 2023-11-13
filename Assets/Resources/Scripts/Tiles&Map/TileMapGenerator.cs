@@ -1,9 +1,12 @@
 using UnityEngine;
 using System.Collections.Generic;
+using SF = UnityEngine.SerializeField;
 
 public class TileMapGenerator : MonoBehaviour
 {
     private GameObject[,] tiles;
+    [SF] GameObject[] herosPrefabs;
+    [SF] GameObject[] enemyPrefabs;
 
     public void GenerateMap(GameObject[] tilePrefabs, int mapWidth, int mapHeight, List<Vector2Int> unitsCollection, List<UnitsLogic> unitsList)
     {
@@ -50,11 +53,26 @@ public class TileMapGenerator : MonoBehaviour
     private void AddUnits(Vector2Int position, UnitsLogic unit)
     {
         GameObject _tile = tiles[position.x, position.y];
-        GameObject _newUnit = Instantiate(unit.gameObject, _tile.transform);
-        UnitsLogic _unitInfo_ = _newUnit.GetComponent<UnitsLogic>();
+        GameObject _unitGameObject = null;
         var _heroData = unit.GetUnitsParams();
-        _unitInfo_.SetUnitsParams(_heroData.PlayerHealth, _heroData.PlayerDamage, _heroData.IsHero, _heroData.IsEnemy);
-        _newUnit.transform.position = new Vector3(_tile.transform.position.x, _tile.transform.position.y, 1);
+        if(_heroData.IsHero)
+        {
+            _unitGameObject = herosPrefabs[UnityEngine.Random.Range(0, herosPrefabs.Length)];
+        }
+        else if(_heroData.IsEnemy)
+        {
+            _unitGameObject = enemyPrefabs[UnityEngine.Random.Range(0, herosPrefabs.Length)];
+        }
+        if(_unitGameObject != null) {
+            // Instantiate(_unitGameObject, _tile.transform);
+            GameObject _newUnit = unit.gameObject;
+            _newUnit.transform.SetParent(_tile.transform);
+            UnitsLogic _unitInfo_ = _newUnit.GetComponent<UnitsLogic>();
+
+            _unitInfo_.SetUnitsParams(_heroData.PlayerHealth, _heroData.PlayerDamage, _heroData.IsHero, _heroData.IsEnemy);
+            _newUnit.transform.position = new Vector3(_tile.transform.position.x, _tile.transform.position.y, 1);
+
+        }
     }
 
  }

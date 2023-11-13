@@ -1,13 +1,18 @@
 using UnityEngine;
-using UnityEngine.Events;
+using SF = UnityEngine.SerializeField;
 
 public class BoostPanel : MonoBehaviour
 {
-    public int[] boostValues;
+    [SF]private int[] boostValues;
+
+    private void Start()
+    {
+        boostValues = new int[2];
+    }
 
     public void HpoinBoost(int hp)
     {
-        boostValues[0] += hp;
+        boostValues[0] = hp;
         SendBoost(boostValues);
     }
 

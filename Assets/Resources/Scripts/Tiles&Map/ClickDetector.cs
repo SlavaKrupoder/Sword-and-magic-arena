@@ -20,21 +20,39 @@ public class ClickDetector : MonoBehaviour
             {
                 GameObject clickedObject = hit.collider.gameObject;
                 Debug.Log("Clicked on: " + clickedObject.name);
-                clickedObject.GetComponent<SpriteRenderer>().color = Color.red;
-
-                if(unitsOfTurnList[HeroSelectableObject] == null || unitsOfTurnList[EnemySelectableObject] == null)
+                
+                if (unitsOfTurnList[HeroSelectableObject] == null || unitsOfTurnList[EnemySelectableObject] == null)
                 {
-                    if (clickedObject.CompareTag(HeroTag))
+                    if (clickedObject.CompareTag(HeroTag) && unitsOfTurnList[HeroSelectableObject] == null)
                     {
                         unitsOfTurnList[HeroSelectableObject] = clickedObject;
+                        // for test
+                        var _spriteRenderer = clickedObject.GetComponent<SpriteRenderer>();
+                        Color spriteColor = _spriteRenderer.color;
+                        spriteColor.a = 1f;
+                        _spriteRenderer.color = spriteColor;
                     }
-                    else if (clickedObject.CompareTag(EnemyTag))
+                    else if (clickedObject.CompareTag(EnemyTag) && unitsOfTurnList[EnemySelectableObject] == null)
                     {
                         unitsOfTurnList[EnemySelectableObject] = clickedObject;
-                        clickHandler.HandleClick(unitsOfTurnList);
+                        // for test
+                        var _spriteRenderer = clickedObject.GetComponent<SpriteRenderer>();
+                        Color spriteColor = _spriteRenderer.color;
+                        spriteColor.a = 1f;
+                        _spriteRenderer.color = spriteColor;
                     }
+                }
+
+                if(unitsOfTurnList[HeroSelectableObject] != null && unitsOfTurnList[EnemySelectableObject] != null)
+                {
+                    clickHandler.HandleClick(unitsOfTurnList);
                 }
             }
         }
+    }
+
+    public void ResetTurnSlots()
+    {
+        unitsOfTurnList = new GameObject[2];
     }
 }

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 public class GameLogic : MonoBehaviour
 {
     private static int HeroIndex = 0;
-    private static int EemyIndex = 0;
+    private static int EemyIndex = 1;
 
     public string MakeTurn(string unitsObjectList, int[][] playerMove, int[][] unitsBoost)
     {
@@ -36,8 +36,8 @@ public class GameLogic : MonoBehaviour
 
     private static Character UpdateStats(Character characterStat, int[] boostStats)
     {
-        characterStat.PlayerHealth = boostStats[HeroIndex];
-        characterStat.PlayerDamage = boostStats[EemyIndex];
+        characterStat.PlayerHealth += boostStats[0];
+        characterStat.PlayerDamage += boostStats[1];
         return characterStat;
     }
 }

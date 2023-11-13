@@ -11,8 +11,8 @@ public class TurnUpdater : MonoBehaviour
     [SF] int playerDm;
     int[][] playerBoost = new int[][]
     {
-        new int[] {1, 1},
-        new int[] {1, 1}
+        new int[] {0, 0},
+        new int[] {0, 0}
     };
 
     private void Start()
@@ -21,9 +21,6 @@ public class TurnUpdater : MonoBehaviour
         playerBoost[0][1] = playerDm;
     }
    
-
-   
-
     public void MakeTurn (GameObject[] unitsOfTurnList)
     {
         if (unitsOfTurnList.Length >= 2)
@@ -37,7 +34,7 @@ public class TurnUpdater : MonoBehaviour
             {
                 Character character = new Character(0, 0, 0, 0, true, false);
                 TileData.TileDataInfo unitInfo = unitsOfTurnList[i].GetComponentInParent<TileData>().GetDataInfo();
-                HeroData _unitInfo = unitsOfTurnList[i].GetComponent<UnitsLogic>().GetUnitsParams();
+                UnitsLogic.HeroDataInfo _unitInfo = unitsOfTurnList[i].GetComponent<UnitsLogic>().GetUnitsParams();
                 int rowIndex = unitInfo.TileRow;
                 int colIndex = unitInfo.TileColumn;
                 bool isHero = unitInfo.IsHeroPlace;
@@ -63,6 +60,9 @@ public class TurnUpdater : MonoBehaviour
             var returnedString = gameLogic.MakeTurn(unitJsonData, playerMove, playerBoost);
             Debug.Log("returnedString = " + returnedString);
             List<Character> charactersList = JsonConvert.DeserializeObject<List<Character>>(returnedString);
+            gameRoot.UpdateUnitsInfo(charactersList);
+            playerBoost[0][0] = 0;
+            playerBoost[0][1] = 0;
         }
         else
         {
@@ -76,8 +76,10 @@ public class TurnUpdater : MonoBehaviour
         {
             playerBoost[0][0] = boostValues[0];
             playerBoost[0][1] = boostValues[1];
-            playerHp = boostValues[0];
-            playerDm = boostValues[1];
+            // for test
+            playerHp = playerBoost[0][0] = boostValues[0];
+            playerDm = playerBoost[0][1] = boostValues[1];
+            //
         }
         else
         {
