@@ -1,17 +1,21 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ClickDetector : MonoBehaviour
 {
     [SerializeField] ClickHandler clickHandler;
+    [SerializeField] TileMapGenerator tileMapGenerator;
     private GameObject[] unitsOfTurnList = new GameObject[2];
     private const int HeroSelectableObject = 0;
     private const int EnemySelectableObject = 1;
     private const string HeroTag = "Hero";
     private const string EnemyTag = "Enemy";
+    private bool isPlayerTurn = true;
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && isPlayerTurn == true)
         {
             Vector2 clickPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             RaycastHit2D hit = Physics2D.Raycast(clickPosition, Vector2.zero);
@@ -46,13 +50,56 @@ public class ClickDetector : MonoBehaviour
                 if(unitsOfTurnList[HeroSelectableObject] != null && unitsOfTurnList[EnemySelectableObject] != null)
                 {
                     clickHandler.HandleClick(unitsOfTurnList);
+                    isPlayerTurn = false;
                 }
             }
         }
     }
 
-    public void ResetTurnSlots()
+    public void MakeAITurn()
     {
+       var _unitsList =  tileMapGenerator.GettilesMap();
         unitsOfTurnList = new GameObject[2];
+       
+        if (isPlayerTurn == false)
+        {
+            for (int i = 0; i < _unitsList.GetLength(0); i++)
+            {
+                for (int j = 0; j < _unitsList.GetLength(1); j++)
+                {
+                    UnitsLogic currentObject = _unitsList[i, j]?.GetComponentInChildren<UnitsLogic>();
+
+                    if (currentObject != null && currentObject.CompareTag("Enemy"))
+                    {
+                        unitsOfTurnList[0] = currentObject.gameObject;
+                        break;
+                    }
+                }
+                if (unitsOfTurnList[0] != null)
+                {
+                    break;
+                }
+            }
+
+            for (int i = 0; i < _unitsList.GetLength(0); i++)
+            {
+                for (int j = 0; j < _unitsList.GetLength(1); j++)
+                {
+                    UnitsLogic currentObject = _unitsList[i, j]?.GetComponentInChildren<UnitsLogic>();
+
+                    if (currentObject != null && currentObject.CompareTag("Hero"))
+                    {
+                        unitsOfTurnList[1] = currentObject.gameObject;
+                        break;
+                    }
+                }
+                if (unitsOfTurnList[1] != null)
+                {
+                    break;
+                }
+            }
+            clickHandler.HandleAiClick(unitsOfTurnList);
+            isPlayerTurn = true;
+        }
     }
 }

@@ -52,8 +52,8 @@ public class TileMapGenerator : MonoBehaviour
 
     private void AddUnits(Vector2Int position, UnitsLogic unit)
     {
-        GameObject _tile = tiles[position.x, position.y];
         GameObject _unitGameObject = null;
+        GameObject _tile = tiles[position.x, position.y];
         var _heroData = unit.GetUnitsParams();
         if(_heroData.IsHero)
         {
@@ -71,7 +71,6 @@ public class TileMapGenerator : MonoBehaviour
 
             _unitInfo_.SetUnitsParams(_heroData.PlayerHealth, _heroData.PlayerDamage, _heroData.IsHero, _heroData.IsEnemy);
             _newUnit.transform.position = new Vector3(_tile.transform.position.x, _tile.transform.position.y, 1);
-
         }
     }
 

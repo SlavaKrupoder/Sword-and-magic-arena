@@ -20,10 +20,16 @@ public class ClickHandler : MonoBehaviour
         btnTrunPlay.interactable = true;
     }
 
+    public void HandleAiClick(GameObject[] unitsGameObjectList)
+    {
+        unitsOfTurnList = unitsGameObjectList;
+        btnTrunPlay.interactable = true;
+    }
+
     public void PlayTurn()
     {
         turnUpdater.MakeTurn(unitsOfTurnList);
         btnTrunPlay.interactable = false;
-        clickDetector.ResetTurnSlots();
+        clickDetector.MakeAITurn();
     }
 }

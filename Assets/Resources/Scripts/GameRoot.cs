@@ -5,6 +5,7 @@ using SF = UnityEngine.SerializeField;
 public class GameRoot : MonoBehaviour
 {
     [SF] TileMapGenerator mapGenerator;
+    [SF] TurnUpdater turnUpdater;
     [SF] GameObject[] tilePrefabs;
     [SF] GameObject[] herosPrefabs;
     [SF] GameObject[] enemyPrefabs;
@@ -21,7 +22,7 @@ public class GameRoot : MonoBehaviour
         // need to create Factory
         for (var i = 0; i < herosCount; i++)
         {
-            var _randomX = Random.Range(2, mapWidth / 2); // Left side of the map
+            var _randomX = Random.Range(2, mapWidth / 2);
             var _randomY = Random.Range(2, mapHeight);
             _unitsCollection.Add(new Vector2Int(_randomX, _randomY));
             /// init hero // need to add method
@@ -36,7 +37,7 @@ public class GameRoot : MonoBehaviour
         // need to create Factory
         for (var i = 0; i < enemyCount; i++)
         {
-            var _randomX = Random.Range(mapWidth / 2, mapWidth); // Right side of the map
+            var _randomX = Random.Range(mapWidth / 2, mapWidth);
             var _randomY = Random.Range(2, mapHeight);
             _unitsCollection.Add(new Vector2Int(_randomX, _randomY));
             /// init hero // need to add method
@@ -65,7 +66,6 @@ public class GameRoot : MonoBehaviour
             var _curentUnit = charactersList[i];
             _updatedUnit.SetUnitsParams(_curentUnit.PlayerHealth, _curentUnit.PlayerDamage, _curentUnit.IsHero, _curentUnit.IsEnemy);
         }
-
     }
 
     void Start()

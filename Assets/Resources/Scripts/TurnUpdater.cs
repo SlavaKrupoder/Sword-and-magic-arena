@@ -63,6 +63,7 @@ public class TurnUpdater : MonoBehaviour
             gameRoot.UpdateUnitsInfo(charactersList);
             playerBoost[0][0] = 0;
             playerBoost[0][1] = 0;
+
         }
         else
         {
