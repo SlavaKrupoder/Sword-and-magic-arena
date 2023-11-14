@@ -12,7 +12,7 @@ namespace MainLogic
         [SF] private int playerHp;
         [SF] private int playerDm;
 
-        private int[][] playerBoost = new int[][]
+        public int[][] PlayersBoostList = new int[][]
         {
         new int[] {0, 0},
         new int[] {0, 0}
@@ -20,8 +20,8 @@ namespace MainLogic
 
         private void Start()
         {
-            playerBoost[0][0] = playerHp;
-            playerBoost[0][1] = playerDm;
+            PlayersBoostList[0][0] = playerHp;
+            PlayersBoostList[0][1] = playerDm;
         }
 
         public void MakeTurn(GameObject[] unitsOfTurnList)
@@ -62,13 +62,19 @@ namespace MainLogic
 
                 string unitJsonData = JsonConvert.SerializeObject(characters, Formatting.Indented);
                 Debug.Log("jsonString = " + unitJsonData);
-                var returnedString = gameLogic.MakeTurn(unitJsonData, playerMove, playerBoost);
+                if(gameLogic == null)
+                {
+                    gameLogic = new GameLogic();
+                }
+                var returnedString = gameLogic.MakeTurn(unitJsonData, playerMove, PlayersBoostList);
                 Debug.Log("returnedString = " + returnedString);
                 List<Character> charactersList = JsonConvert.DeserializeObject<List<Character>>(returnedString);
-                gameRoot.UpdateUnitsInfo(charactersList);
-                playerBoost[0][0] = 0;
-                playerBoost[0][1] = 0;
-
+                if(gameRoot != null)
+                {
+                    gameRoot.UpdateUnitsInfo(charactersList);
+                    PlayersBoostList[0][0] = 0;
+                    PlayersBoostList[0][1] = 0;
+                }
             }
             else
             {
@@ -78,13 +84,13 @@ namespace MainLogic
 
         private void HandleBoostEvent(int[] boostValues)
         {
-            if (playerBoost != null && playerBoost.Length > 0 && playerBoost[0] != null && playerBoost[0].Length > 0)
+            if (PlayersBoostList != null && PlayersBoostList.Length > 0 && PlayersBoostList[0] != null && PlayersBoostList[0].Length > 0)
             {
-                playerBoost[0][0] = boostValues[0];
-                playerBoost[0][1] = boostValues[1];
+                PlayersBoostList[0][0] = boostValues[0];
+                PlayersBoostList[0][1] = boostValues[1];
                 // for test
-                playerHp = playerBoost[0][0] = boostValues[0];
-                playerDm = playerBoost[0][1] = boostValues[1];
+                playerHp = PlayersBoostList[0][0] = boostValues[0];
+                playerDm = PlayersBoostList[0][1] = boostValues[1];
                 //
             }
             else
