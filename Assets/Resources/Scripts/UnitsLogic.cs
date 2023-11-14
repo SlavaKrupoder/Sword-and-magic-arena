@@ -4,31 +4,31 @@ using SF = UnityEngine.SerializeField;
 
 public class UnitsLogic : MonoBehaviour
 {
-    [SF] private TextMeshPro HeroHpText;
-    [SF] private TextMeshPro HeroDmText;
-    private HeroDataInfo HeroData;
+    [SF] private TextMeshPro heroHpText;
+    [SF] private TextMeshPro heroDmText;
+    private HeroDataInfo heroData;
 
     public void SetUnitsParams(int heroHealth, int heroDamage, bool isHero, bool IsEnemy)
     {
-        HeroData = new HeroDataInfo();
-        HeroData.IsHero = isHero;
-        HeroData.IsEnemy = IsEnemy;
-        HeroData.PlayerDamage = heroDamage;
-        HeroData.PlayerHealth = heroHealth;
-        HeroHpText.text = heroHealth.ToString();
-        HeroDmText.text = heroDamage.ToString();
+        heroData = new HeroDataInfo();
+        heroData.IsHero = isHero;
+        heroData.IsEnemy = IsEnemy;
+        heroData.PlayerDamage = heroDamage;
+        heroData.PlayerHealth = heroHealth;
+        heroHpText.text = heroHealth.ToString();
+        heroDmText.text = heroDamage.ToString();
         CheckUnitParams();
     }
 
     public HeroDataInfo GetUnitsParams()
     {
-        return HeroData;
+        return heroData;
     }
 
     private void CheckUnitParams()
     {
         // need to create obj pool and returnt to pool after dead
-        if (HeroData.PlayerHealth <= 0)
+        if (heroData.PlayerHealth <= 0)
         {
             Destroy(gameObject);
         }

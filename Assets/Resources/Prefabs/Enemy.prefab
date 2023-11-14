@@ -100,8 +100,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ed3d4f3e0f26d749a17e3055f2a39bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HeroHpText: {fileID: 5428320661048525801}
-  HeroDmText: {fileID: 249200460400360359}
+  heroHpText: {fileID: 5428320661048525801}
+  heroDmText: {fileID: 249200460400360359}
 --- !u!70 &-952735960036078949
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

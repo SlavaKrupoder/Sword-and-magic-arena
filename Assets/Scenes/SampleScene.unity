@@ -1858,8 +1858,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameLogic: {fileID: 1670335600}
   gameRoot: {fileID: 1466769452}
-  playerHp: 0
-  playerDm: 0
+  playerHp: 1
+  playerDm: 1
 --- !u!4 &1664475214
 Transform:
   m_ObjectHideFlags: 0
@@ -2166,8 +2166,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6bbec1d7df861143bb481ffbfc76679, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  popup: {fileID: 1469147353}
-  popupText: {fileID: 1079088758}
+  popUp: {fileID: 1469147353}
+  popUpText: {fileID: 1079088758}
 --- !u!1 &2075323079
 GameObject:
   m_ObjectHideFlags: 0

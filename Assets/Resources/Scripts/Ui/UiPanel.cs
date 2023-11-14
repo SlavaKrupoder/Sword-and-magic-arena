@@ -5,8 +5,9 @@ using UnityEngine;
 
 public class UiPanel : MonoBehaviour
 {
-    [SerializeField] private GameObject popup;
-    [SerializeField] private TextMeshProUGUI popupText;
+    [SerializeField] private GameObject popUp;
+    [SerializeField] private TextMeshProUGUI popUpText;
+
     public void FinishedGame()
     {
         Application.Quit();
@@ -14,8 +15,8 @@ public class UiPanel : MonoBehaviour
 
     public void ShowPopup(string winnerTeam)
     {
-        popup.SetActive(true);
-        popupText.text = winnerTeam;
+        popUp.SetActive(true);
+        popUpText.text = winnerTeam;
 
     }
 

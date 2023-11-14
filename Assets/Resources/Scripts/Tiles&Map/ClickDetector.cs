@@ -7,11 +7,11 @@ public class ClickDetector : MonoBehaviour
     [SerializeField] ClickHandler clickHandler;
     [SerializeField] TileMapGenerator tileMapGenerator;
     private GameObject[] unitsOfTurnList = new GameObject[2];
+    private bool isPlayerTurn = true;
     private const int HeroSelectableObject = 0;
     private const int EnemySelectableObject = 1;
     private const string HeroTag = "Hero";
     private const string EnemyTag = "Enemy";
-    private bool isPlayerTurn = true;
 
     private void Update()
     {

@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using SF = UnityEngine.SerializeField;
+using MainLogic;
 
 public class ClickHandler : MonoBehaviour
 {

@@ -64,7 +64,6 @@ public class TileMapGenerator : MonoBehaviour
             _unitGameObject = enemyPrefabs[UnityEngine.Random.Range(0, herosPrefabs.Length)];
         }
         if(_unitGameObject != null) {
-            // Instantiate(_unitGameObject, _tile.transform);
             GameObject _newUnit = unit.gameObject;
             _newUnit.transform.SetParent(_tile.transform);
             UnitsLogic _unitInfo_ = _newUnit.GetComponent<UnitsLogic>();
@@ -73,5 +72,4 @@ public class TileMapGenerator : MonoBehaviour
             _newUnit.transform.position = new Vector3(_tile.transform.position.x, _tile.transform.position.y, 1);
         }
     }
-
  }
