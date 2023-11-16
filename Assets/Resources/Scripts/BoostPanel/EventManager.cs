@@ -1,26 +1,29 @@
 using UnityEngine;
 
-public class EventManager : MonoBehaviour
+namespace MainLogic
 {
-    public static EventManager current;
-
-    public delegate void BoostEvent(int[] boostValues);
-    public static event BoostEvent OnBoostEvent;
-    public delegate void EndGameEvent(string winnerTeam);
-    public static event EndGameEvent OnEndGameEvent;
-
-    private void Awake()
+    public class EventManager : MonoBehaviour
     {
-        current = this;
-    }
+        public static EventManager EventManagerObjectLink;
 
-    public void SendBoostEvent(int[] boostValues)
-    {
-        OnBoostEvent?.Invoke(boostValues);
-    }
+        public delegate void BoostEvent(int[] boostValues);
+        public static event BoostEvent OnBoostEvent;
+        public delegate void EndGameEvent(string winnerTeam);
+        public static event EndGameEvent OnEndGameEvent;
 
-    public void SendEndGameEvent(string winnerTeam)
-    {
-        OnEndGameEvent?.Invoke(winnerTeam);
+        private void Awake()
+        {
+            EventManagerObjectLink = this;
+        }
+
+        public void SendBoostEvent(int[] boostValues)
+        {
+            OnBoostEvent?.Invoke(boostValues);
+        }
+
+        public void SendEndGameEvent(string winnerTeam)
+        {
+            OnEndGameEvent?.Invoke(winnerTeam);
+        }
     }
 }

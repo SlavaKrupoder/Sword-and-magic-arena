@@ -1,33 +1,36 @@
 using UnityEngine;
 
-public class TileData : MonoBehaviour
+namespace MainLogic
 {
-    TileDataInfo currentTileData = new TileDataInfo();
-   
-    public void SetDataInfo(TileDataInfo currentTileData)
+    public class TileData : MonoBehaviour
     {
-        this.currentTileData = currentTileData;
+        TileDataInfo currentTileData = new TileDataInfo();
 
-        if (this.currentTileData.IsHeroPlace)
+        public void SetDataInfo(TileDataInfo currentTileData)
         {
-            gameObject.GetComponent<SpriteRenderer>().color = Color.blue;
+            this.currentTileData = currentTileData;
+
+            if (this.currentTileData.IsHeroPlace)
+            {
+                gameObject.GetComponent<SpriteRenderer>().color = Color.blue;
+            }
+            if (this.currentTileData.IsEnemyPlace)
+            {
+                gameObject.GetComponent<SpriteRenderer>().color = Color.green;
+            }
         }
-        if (this.currentTileData.IsEnemyPlace)
+
+        public TileDataInfo GetDataInfo()
         {
-            gameObject.GetComponent<SpriteRenderer>().color = Color.green;
+            return currentTileData;
         }
-    }
 
-    public TileDataInfo GetDataInfo()
-    {
-        return currentTileData;
-    }
-
-    public struct TileDataInfo
-    {
-        public int TileColumn;
-        public int TileRow;
-        public bool IsHeroPlace;
-        public bool IsEnemyPlace;
+        public struct TileDataInfo
+        {
+            public int TileColumn;
+            public int TileRow;
+            public bool IsHeroPlace;
+            public bool IsEnemyPlace;
+        }
     }
 }

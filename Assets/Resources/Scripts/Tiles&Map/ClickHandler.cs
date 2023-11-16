@@ -3,34 +3,37 @@ using UnityEngine.UI;
 using SF = UnityEngine.SerializeField;
 using MainLogic;
 
-public class ClickHandler : MonoBehaviour
+namespace UiLogic
 {
-    [SF] TurnUpdater turnUpdater;
-    [SF] Button btnTrunPlay;
-    [SF] ClickDetector clickDetector;
-    GameObject[] unitsOfTurnList;
-
-    private void Start()
+    public class ClickHandler : MonoBehaviour
     {
-        btnTrunPlay.interactable = false;
-    }
+        [SF] TurnUpdater turnUpdater;
+        [SF] Button btnTrunPlay;
+        [SF] ClickDetector clickDetector;
+        GameObject[] unitsOfTurnList;
 
-    public void HandleClick(GameObject[] unitsGameObjectList)
-    {
-        unitsOfTurnList = unitsGameObjectList;
-        btnTrunPlay.interactable = true;
-    }
+        private void Start()
+        {
+            btnTrunPlay.interactable = false;
+        }
 
-    public void HandleAiClick(GameObject[] unitsGameObjectList)
-    {
-        unitsOfTurnList = unitsGameObjectList;
-        btnTrunPlay.interactable = true;
-    }
+        public void HandleClick(GameObject[] unitsGameObjectList)
+        {
+            unitsOfTurnList = unitsGameObjectList;
+            btnTrunPlay.interactable = true;
+        }
 
-    public void PlayTurn()
-    {
-        turnUpdater.MakeTurn(unitsOfTurnList);
-        btnTrunPlay.interactable = false;
-        clickDetector.MakeAITurn();
+        public void HandleAiClick(GameObject[] unitsGameObjectList)
+        {
+            unitsOfTurnList = unitsGameObjectList;
+            btnTrunPlay.interactable = true;
+        }
+
+        public void PlayTurn()
+        {
+            turnUpdater.MakeTurn(unitsOfTurnList);
+            btnTrunPlay.interactable = false;
+            clickDetector.MakeAITurn();
+        }
     }
 }

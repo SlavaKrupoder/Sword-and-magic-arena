@@ -1,29 +1,33 @@
 using UnityEngine;
 using SF = UnityEngine.SerializeField;
+using MainLogic;
 
-public class BoostPanel : MonoBehaviour
+namespace UiLogic
 {
-    [SF]private int[] boostValues;
-
-    private void Start()
+    public class BoostPanel : MonoBehaviour
     {
-        boostValues = new int[2];
-    }
+        [SF] private int[] boostValues;
 
-    public void HpoinBoost(int hp)
-    {
-        boostValues[0] = hp;
-        SendBoost(boostValues);
-    }
+        private void Start()
+        {
+            boostValues = new int[2];
+        }
 
-    public void DamageBoost(int dm)
-    {
-        boostValues[1] = dm;
-        SendBoost(boostValues);
-    }
+        public void HpoinBoost(int hp)
+        {
+            boostValues[0] = hp;
+            SendBoost(boostValues);
+        }
 
-    private void SendBoost(int[] boostValues)
-    {
-        EventManager.current.SendBoostEvent(boostValues);
+        public void DamageBoost(int dm)
+        {
+            boostValues[1] = dm;
+            SendBoost(boostValues);
+        }
+
+        private void SendBoost(int[] boostValues)
+        {
+            EventManager.EventManagerObjectLink.SendBoostEvent(boostValues);
+        }
     }
 }

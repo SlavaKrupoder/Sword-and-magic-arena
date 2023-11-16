@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using SF = UnityEngine.SerializeField;
+using PoolSpace;
 
 namespace MainLogic
 {
@@ -8,55 +9,16 @@ namespace MainLogic
     {
         [SF] private TileMapGenerator mapGenerator;
         [SF] private TurnUpdater turnUpdater;
-        [SF] private GameObject[] tilePrefabs;
-        [SF] private GameObject[] herosPrefabs;
-        [SF] private GameObject[] enemyPrefabs;
+        [SF] private ObjectsPool tilePrefabsPool;
+        [SF] private ObjectsPool unitsPrefabPool;
         [SF] private int mapHeight = 5;
         [SF] private int mapWidth = 5;
         [SF] private int herosCount = 5;
         [SF] private int enemyCount = 5;
 
-        (List<Vector2Int> unitsCollection, List<UnitsLogic> unitsList) UnitsMapper()
-        {
-            List<Vector2Int> _unitsCollection = new List<Vector2Int>();
-            List<UnitsLogic> _unitsList = new List<UnitsLogic>();
-
-            for (var i = 0; i < herosCount; i++)
-            {
-                var _randomX = Random.Range(2, mapWidth / 2);
-                var _randomY = Random.Range(2, mapHeight);
-                _unitsCollection.Add(new Vector2Int(_randomX, _randomY));
-                /// init hero // need to add method
-                var _hPref = herosPrefabs[Random.Range(0, herosPrefabs.Length)].GetComponent<UnitsLogic>();
-                UnitsLogic _curentHero = Instantiate(_hPref).GetComponent<UnitsLogic>();
-                var _unitHealth = Random.Range(12, 20);
-                var _unitDamage = Random.Range(5, 10);
-                _curentHero.SetUnitsParams(_unitHealth, _unitDamage, true, false);
-                ////
-                _unitsList.Add(_curentHero);
-            }
-
-            for (var i = 0; i < enemyCount; i++)
-            {
-                var _randomX = Random.Range(mapWidth / 2, mapWidth);
-                var _randomY = Random.Range(2, mapHeight);
-                _unitsCollection.Add(new Vector2Int(_randomX, _randomY));
-                /// init hero // need to add method
-                var _enPref = enemyPrefabs[Random.Range(0, enemyPrefabs.Length)].GetComponent<UnitsLogic>();
-                UnitsLogic _curentEnemy = Instantiate(_enPref).GetComponent<UnitsLogic>();
-                var _unitHealth = Random.Range(12, 20);
-                var _unitDamage = Random.Range(5, 10);
-                _curentEnemy.SetUnitsParams(_unitHealth, _unitDamage, false, true);
-                ///
-                _unitsList.Add(_curentEnemy);
-            }
-
-            return (_unitsCollection, _unitsList);
-        }
-
         public void UpdateUnitsInfo(List<TurnUpdater.Character> charactersList)
         {
-            var _tilesMap = mapGenerator.GettilesMap();
+            var _tilesMap = mapGenerator.GetTilesMap();
             var _charactersListCount = charactersList.Count;
 
             for (var i = 0; i < _charactersListCount; i++)
@@ -77,7 +39,7 @@ namespace MainLogic
         {
             int _herosCount = 0;
             int _enemysCount = 0;
-            var _unitsList = mapGenerator.GettilesMap();
+            var _unitsList = mapGenerator.GetTilesMap();
 
             for (int i = 0; i < _unitsList.GetLength(0); i++)
             {
@@ -99,18 +61,28 @@ namespace MainLogic
 
             if (_herosCount <= 0)
             {
-                EventManager.current.SendEndGameEvent("Enemys team win! You Lose :(");
+                EventManager.EventManagerObjectLink.SendEndGameEvent("Enemys team win! You Lose :(");
             }
             else if (_enemysCount <= 0)
             {
-                EventManager.current.SendEndGameEvent("Heroes team win!");
+                EventManager.EventManagerObjectLink.SendEndGameEvent("Heroes team win!");
             }
         }
 
         void Start()
         {
-            (List<Vector2Int> unitsPositionCollection, List<UnitsLogic> unitsList) = UnitsMapper();
-            mapGenerator.GenerateMap(tilePrefabs, mapWidth, mapHeight, unitsPositionCollection, unitsList);
+            unitsPrefabPool.InitPool(herosCount + enemyCount);
+            tilePrefabsPool.InitPool(mapWidth * mapHeight);
+            mapGenerator.GenerateMap(tilePrefabsPool, mapWidth, mapHeight);
+
+            UnitsMapper _unitsMapper = new UnitsMapper(herosCount, enemyCount, unitsPrefabPool, mapWidth, mapHeight);
+            List<UnitsLogic> _unitsList = _unitsMapper.GetInitialUnits();
+            List<Vector2Int> _unitsPositionCollection = _unitsMapper.GetInitialUnitsPosition();
+            
+            GameObject[,] _tilesMap = mapGenerator.GetTilesMap();
+            UnitsPositioner _unitsPositioner = new UnitsPositioner(_unitsPositionCollection, _unitsList, _tilesMap);
+
+            var unitList = _unitsPositioner.GetUnitsList();
         }
     }
 }
